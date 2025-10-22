@@ -19,13 +19,23 @@ app.get('/api/items', async (c) => {
   return c.json(results);
 });
 
-app.post('/api/products', async (c) => {
+app.post('/api/item', async (c) => {
   const body = await c.req.json();
   await c.env.DB
     .prepare('INSERT INTO products (name, price) VALUES (?, ?)')
     .bind(body.name, body.price)
     .run();
   return c.text('Product added!');
+});
+
+app.get('/api/categories', async (c) => {
+  const { results } = await c.env.DB.prepare('select *  from categories').all();
+  return c.json(results);
+});
+
+app.get('/api/storeInfo', async (c) => {
+  const { results } = await c.env.DB.prepare('select * from storeInfo').all();
+  return c.json(results);
 });
 
 export default app;
