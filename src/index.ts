@@ -1,9 +1,6 @@
 import { fromHono } from "chanfana";
 import { Hono } from "hono";
-import { TaskCreate } from "./endpoints/taskCreate";
-import { TaskDelete } from "./endpoints/taskDelete";
-import { TaskFetch } from "./endpoints/taskFetch";
-import { TaskList } from "./endpoints/taskList";
+import { cors } from 'hono/cors';
 
 // Start a Hono app
 type Env = {
@@ -12,11 +9,12 @@ type Env = {
 };
 const app = new Hono<{ Bindings: Env }>();
 
+app.use('*', cors());
 app.get('/', (c) => c.text('Hello from Worker + D1!'));
 
 app.get('/api/items', async (c) => {
   const { results } = await c.env.DB.prepare('select *  from items').all();
-  return c.json(results);
+  return c.json({"data":results});
 });
 
 app.post('/api/item', async (c) => {
