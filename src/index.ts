@@ -36,4 +36,11 @@ app.get('/api/storeInfo', async (c) => {
   return c.json(results);
 });
 
+app.get('/api/storeInfo/gallery', async (c) => {
+  const { results } = await c.env.DB.prepare('select GalleryImagesUrl from storeInfo').all();
+  return c.json(results);
+});
+
+
+
 export default app;
