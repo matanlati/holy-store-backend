@@ -38,7 +38,7 @@ app.get('/api/storeInfo', async (c) => {
 
 app.get('/api/storeInfo/gallery', async (c) => {
   const { results } = await c.env.DB.prepare('select GalleryImagesUrl from storeInfo').all();
-  return c.json(results);
+  return c.json(results[0].GalleryImagesUrl.split(','));
 });
 
 
